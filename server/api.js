@@ -1,5 +1,5 @@
 //? Importing dotenv, and applying it (giving us access to process.env)
-// require('dotenv').config();
+require('dotenv').config();
 
 //does this project have seed data we need to import?
 
@@ -7,10 +7,10 @@
 const express = require("express");
 
 //? Importing Cors
-// const cors = require("cors");
+const cors = require("cors");
 
 //? Importing Mongoose
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 // //? Connection string URL variable from .env file
 // const MONGODB = process.env.MONGO_DB_URL + process.env.DB_NAME;
@@ -19,13 +19,13 @@ const express = require("express");
 const app = express();
 
 //? Import controller/s
-//const { messagesController, userController, roomController  } = require("./controllers/index");
+// const { messagesController, userController, roomController  } = require("./controllers/index");
 
 //? Import validation middleware
 // const validateSession = require("./middleware/validate_session");
 
 //? sTORING THE CONNECTION STATUS
-// const db = mongoose.connection;
+const db = mongoose.connection;
 
 //? Assigning a variable from .env, with fallback port of 7000
 //* || - OR/DEFAULT operator
@@ -39,7 +39,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //? Allow our endpoints to be interacted with via web browser
-// app.use(cors());
+app.use(cors());
 
 //? Using the controllers
 // app.use("/user", userController);
