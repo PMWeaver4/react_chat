@@ -27,10 +27,8 @@ const app = express();
 //? sTORING THE CONNECTION STATUS
 const db = mongoose.connection;
 
-//? Assigning a variable from .env, with fallback port of 7000
-//* || - OR/DEFAULT operator
-const PORT = process.env.PORT || 7000;
-//remember to create .env file
+//? Assigning a variable from .env
+const PORT = process.env.PORT;
 
 //? Middleware to allow JSON to be accepted by our HTTP server
 app.use(express.json());
@@ -60,3 +58,4 @@ app.listen(PORT, () => {
   });
 
   // trying it again
+  // more comments, w00t!
