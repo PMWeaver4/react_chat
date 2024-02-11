@@ -9,7 +9,9 @@ const RoomSchema = new mongoose.Schema({
         descrition: {type: String,
             required: true,
             minlength: 1},
-        addUsers: ,
+        addUsers: {
+            type: Array,
+        },
         
     }
     
