@@ -19,10 +19,10 @@ const mongoose = require("mongoose");
 const app = express();
 
 //? Import controller/s
-// const { messagesController, userController, roomController  } = require("./controllers/index");
+const { message, user, room  } = require("./routers/index");
 
 //? Import validation middleware
-// const validateSession = require("./middleware/validate_session");
+const validateSession = require("./middleware/validate");
 
 //? sTORING THE CONNECTION STATUS
 const db = mongoose.connection;
