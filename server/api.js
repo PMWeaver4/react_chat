@@ -19,11 +19,12 @@ const MONGODB = process.env.MONGO_DB_URL + process.env.DB_NAME;
 const app = express();
 
 //? Import controller/s
-// const { message, user, room  } = require("./routers/index");
+const { userRoutes, roomRoutes, messageRoutes  } = require("./routes/");
 
 //? Import validation middleware
 const validateSession = require("./middleware/validate");
 
+mongoose.connect(MONGODB);
 //? sTORING THE CONNECTION STATUS
 const db = mongoose.connection;
 
@@ -40,11 +41,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 //? Using the controllers
-// app.use("/user", userController);
+app.use("/user", userRoutes);
 //validate before doing postcontroller
 // app.use(validateSession);
-// app.use("/message", messageController);
-// app.use("/room", roomController);
+app.use("/message", messageRoutes);
+app.use("/room", roomRoutes);
 //can also do app.use("/post", validateSession, postController)
 
 //? Initial spin up of the Express server
