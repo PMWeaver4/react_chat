@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const room = require("./roon");
+const room = require("./room");
 
 const RoomSchema = new mongoose.Schema({
-    text: {
+    
         name: {type: String,
             required: true,
             minlength: 1},
@@ -13,8 +13,13 @@ const RoomSchema = new mongoose.Schema({
             type: Array,
         },
         
-    }
     
-});
+    
+},
+{
+    //test this out when doing routes
+    timestamps: true
+}
+);
 
 module.exports = mongoose.model("room", RoomSchema);
