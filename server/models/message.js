@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const message = require("./message");
 
 const MessageSchema = new mongoose.Schema({
-    text: {
+    
         when: {type: String,
             required: true,
             minlength: 1},
@@ -15,8 +15,13 @@ const MessageSchema = new mongoose.Schema({
         body: {type: String,
             required: true,
             minlength: 1},
-    }
     
-});
+    
+}, 
+{
+    //test this out when doing routes
+    timestamps: true
+}
+);
 
 module.exports = mongoose.model("message", MessageSchema);
