@@ -17,6 +17,11 @@ const MessageSchema = new mongoose.Schema({
             minlength: 1},
     }
     
-});
+}, 
+{
+    //test this out when doing routes
+    timestamps: true
+}
+);
 
 module.exports = mongoose.model("message", MessageSchema);
