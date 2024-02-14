@@ -6,7 +6,7 @@ const RoomSchema = new mongoose.Schema({
         name: {type: String,
             required: true,
             minlength: 1},
-        descrition: {type: String,
+        description: {type: String,
             required: true,
             minlength: 1},
 // HEAD:server/routers/room.js
