@@ -1,29 +1,54 @@
 const router = require("express").Router();
 
+//? Adding validate from middleware. Please check if this is correct.
+// const validate = require("../middleware/validate");
+
 const Room = require("../models/room");
 
 
 
-router.post("/create/", async(req,res) => {
-    try{
+router.post("/create/:id", async (req,res) => {
+    try {
         
             let post = new Room({
             name: req.body.name,
             description: req.body.description,
             addedUsers: req.body.addedUsers,
-            
         });
+
         const newPost = await post.save();
+
         res.status(200).json({
             Created: newPost,
-        })
-    }catch(err){
+        });
+
+    } catch (err) {
         console.log(err);
         res.status(500).json({
-            Error:err,
+            Error: err,
         });
     }
 });
+
+// Display all rooms endpoint
+
+  router.get("/all", async (req, res) => {
+    try {
+        let results = await this.post.find().populate("user_id", ["firstName", "lastName", "-_id"])
+        .select({
+            text: 1,
+            createdAt:1,
+            updatedAt: 1,
+        });
+    res.status(200).json({
+        Results: results,
+    });
+     } catch (err) {
+        res.status(500).json({
+          Error: err,
+        });
+    }
+ });
 
 // [PUT] Adding Update Endpoint
 

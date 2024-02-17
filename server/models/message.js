@@ -4,17 +4,21 @@ const message = require("./message");
 const MessageSchema = new mongoose.Schema(
     {
     
-        when: {type: Date,
+        when: {
+            type: Date,
             required: true,
             default: Date.now,
         },
-        user: {type: String,
+        user: {
+            type: String,
             required: true,
             minlength: 1},
-        room: {type: String,
+        room: {
+            type: String,
             required: true,
             minlength: 1},
-        body: {type: String,
+        body: {
+            type: String,
             required: true,
             minlength: 1},
         msg_id: {type: String,
