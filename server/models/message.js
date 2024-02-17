@@ -6,7 +6,8 @@ const MessageSchema = new mongoose.Schema(
     
         when: {type: Date,
             required: true,
-            minlength: 1},
+             minlength: 1
+        },
         user: {type: String,
             required: true,
             minlength: 1},
