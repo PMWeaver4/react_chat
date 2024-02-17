@@ -1,8 +1,6 @@
 const router = require("express").Router();
 
 const Message = require("../models/message");
-// const Room = require("../models/room");
-// const db = require("./seed_data/seed_data.json");
 
 
 
@@ -12,8 +10,7 @@ router.get("/get_room/:room", async(req,res) => {
         
         
         let filtered = await Message.find({room: req.params.room}).populate("room").select(["when", "user", "body"])
-        console.log("anything");
-
+        
         res.status(200).json({
             Results: filtered
         });
@@ -30,14 +27,17 @@ router.get("/get_room/:room", async(req,res) => {
 // creat a message
 router.post("/create/", async(req,res) => {
     try{
-        
-            let post = new Message({
-            // when: req.body.when,
+
+        const Count = await Message.countDocuments({});
+
+        let post = new Message({
+            msg_id: Count,
             user: req.body.user,
             room: req.body.room,
             body: req.body.body,
         });
         const newPost = await post.save();
+        console.log(Count);
         res.status(200).json({
             Created: newPost,
         })
@@ -51,21 +51,20 @@ router.post("/create/", async(req,res) => {
 
 
 //update
-router.put("/update/:id", (req, res) => {
+router.put("/update/:room/:id", async (req, res) => {
     try {
         // Grabbing the index of an item/obj that matches our param id
-        let indexOfItem = db.finIndex((i) => i.Message == req.params.id);
+        // let indexOfItem = Message.findIndex((i) => i.Message == req.params.id);
+        // let filtered = await Message.find({room: req.params.room}).populate("room").select("body");
+        // let whichFiltered = await (await filtered.find({msg_id: req.params.id}).populate("msg_id")).select("body");
+        console.log(req.params.room, req.params.id);
+        let filtered = await Message.find({room: req.params.room, msg_id: req.params.id}).populate("room").select(["when", "user", "body", "msg_id"])
+        console.log(filtered);
 
-        db[indexOfItem] = {
-            when: req.params.when,
-            user: req.body.user,//come from list of users
-            room: req.body.room,//room should come from some list of rooms
-            body: req.body.body
-
-        };
         res.status(200).json({
-            Updated: db[indexOfItem],
-            Results: db,
+            Results: filtered,
+            //now let's change this to be like updates in other projects
+
         });
     } catch (err) {
         res.status(500).json({
@@ -82,8 +81,7 @@ router.delete("/delete/:id", (req, res) => {
         db.forEach((i, idx) => {
             i.Room = idx + 1;
         });
-        // Need to add fs for delete
-        // fs.unlink('mynewfile2.txt', function (err) {
+
             if (err) throw err;
             res.status(200).json({
                 Deleted: 1,

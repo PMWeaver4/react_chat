@@ -13,6 +13,15 @@ const RoomSchema = new mongoose.Schema({
         description: {
             type: String,
             required: true,
+
+            minlength: 1},
+        addUsers: {
+            type: Array,
+        },
+        
+    
+    
+
             minlength: 1,
         },
 
@@ -31,6 +40,7 @@ const RoomSchema = new mongoose.Schema({
  //       },
 // 59c297e8c7ff53ab6051c03f1eafd42a5c263b26:server/models/room.js
            
+
 },
 {
     //test this out when doing routes

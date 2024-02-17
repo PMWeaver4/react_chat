@@ -7,7 +7,6 @@ const MessageSchema = new mongoose.Schema(
         when: {
             type: Date,
             required: true,
-            // minlength: 1
             default: Date.now,
         },
         user: {
@@ -22,7 +21,11 @@ const MessageSchema = new mongoose.Schema(
             type: String,
             required: true,
             minlength: 1},
-    
+        msg_id: {type: String,
+            // required: true,
+            // minlength: 1
+        },
+   
     
 }, 
 {
