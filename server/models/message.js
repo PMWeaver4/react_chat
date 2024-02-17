@@ -1,11 +1,14 @@
 const mongoose = require("mongoose");
 const message = require("./message");
 
-const MessageSchema = new mongoose.Schema({
+const MessageSchema = new mongoose.Schema(
+    {
     
-        when: {type: String,
+        when: {type: Date,
             required: true,
-            minlength: 1},
+            // minlength: 1
+            default: Date.now,
+        },
         user: {type: String,
             required: true,
             minlength: 1},

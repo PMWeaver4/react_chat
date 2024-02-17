@@ -1,21 +1,36 @@
 {
-    "post":[
+    "message":[
     {
-        "id": 1,
-        "title": "First Blog Post",
-        "author": "Paul Niemczyk",
-        "body": "These student devs keep getting younger and smarter"
+        "when": "yesterday",
+        "user": "That one guy",
+        "room": "Big Room",
+        "body": "What in the heck is going on here?"
     },
     {
-        "id": 2,
-        "title": "second Blog Post",
-        "author": "Paul Niemczyk",
-        "body": "These student devs keep getting younger and smarter"
-    },
+        "when": "tomorrow",
+        "user": "That other guy",
+        "room": "Big Room",
+        "body": "What in the heck is going on here, really?"
+    }
+    ],
+    "user":[
+    {
+        "firstName": "Scottie",
+        "lastName": "Pippen",
+        "email": "prettygood@notbad.com",
+        "password": "ilikeme"
+
+    }
+    ],
+    "room":[
+        {
+            "name": "Big Room",
+            "description": "A large room where everyone can be",
+            "addedUsers": ["What's a user name or id that we use?"]
+            
+    
+        }
+        ]
 
 
-],
-"user":[
-    {}
-]
 }
