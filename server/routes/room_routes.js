@@ -1,5 +1,8 @@
 const router = require("express").Router();
 
+//? Adding validate from middleware. Please check if this is correct.
+// const validate = require("../middleware/validate");
+
 const Room = require("../models/room");
 
 
