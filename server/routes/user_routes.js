@@ -11,7 +11,6 @@ const User = require("../models/user");
 //create
 router.post("/create/", async(req,res) => {
     try{
-        
             let user = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -38,8 +37,9 @@ router.post("/login", async (req,res) => {
 
         if(!user) throw new Error("User not found");
 
-        let passwordMatch = (password == user.password);
-        //await bcrypt.compare(password, user.password)
+        // let passwordMatch = (password == user.password);
+        let passwordMatch = await bcrypt.compare(password, user.password);
+        console.log(passwordMatch, password, user.password);
 
         if(!passwordMatch) throw new Error("Invalid Details");
 
