@@ -42,7 +42,7 @@ router.post("/create/:id", async (req,res) => {
         });
     res.status(200).json({
         Results: results,
-    }),
+    });
      } catch (err) {
         res.status(500).json({
           Error: err,
