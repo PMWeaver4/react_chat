@@ -74,15 +74,20 @@ router.put("/update/:room/:id", async (req, res) => {
 });
 
 //delete......
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:room/:id", async (req, res) => {
     try {
-        let indexOfItem = db.findIndex((i) => i.Room == req.params.id);
-        db.splice(indexOfItem, 1);
-        db.forEach((i, idx) => {
-            i.Room = idx + 1;
-        });
 
-            if (err) throw err;
+        const message = await Message.findByIdAndDelete(req.params.id);
+        const allResults = await Message.find().populate
+        ("message", [
+            "when",
+            "user",
+            "room",
+            "body",
+            "_id",
+        ]);
+
+            if (!message) throw new Error("Message not found");
             res.status(200).json({
                 Deleted: 1,
                 Results: db,
