@@ -18,8 +18,8 @@ const RoomSchema = new mongoose.Schema({
         },
         addedUsers: {
             type: Array,
-        },
             minlength: 1,
+        },
         },
 
  //? Redid user coding 2/17. Let me know if this works or not.       

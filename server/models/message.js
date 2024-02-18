@@ -21,7 +21,7 @@ const MessageSchema = new mongoose.Schema(
             type: String,
             required: true,
             minlength: 1},
-        msg_id: {type: String,
+        msg_id: {type: Number,
             // required: true,
             // minlength: 1
         },

@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema ({
         },
 
 //test this out when doing routes
-    timestamps: true
+   // timestamps: true
 
 });
 
