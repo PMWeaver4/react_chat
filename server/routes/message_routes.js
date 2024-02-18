@@ -53,17 +53,14 @@ router.post("/create/", async(req,res) => {
 //update
 router.put("/update/:room/:id", async (req, res) => {
     try {
-        // Grabbing the index of an item/obj that matches our param id
-        // let indexOfItem = Message.findIndex((i) => i.Message == req.params.id);
-        // let filtered = await Message.find({room: req.params.room}).populate("room").select("body");
-        // let whichFiltered = await (await filtered.find({msg_id: req.params.id}).populate("msg_id")).select("body");
-        console.log(req.params.room, req.params.id);
-        let filtered = await Message.find({room: req.params.room, msg_id: req.params.id}).populate("room").select(["when", "user", "body", "msg_id"])
-        console.log(filtered);
+        const filter = {room: req.params.room, msg_id: req.params.id};
+        const update = {room: req.body.room,body: req.body.body};
+        
+
+        const filtered = await Message.findOneAndUpdate(filter, update,{new: true});
 
         res.status(200).json({
             Results: filtered,
-            //now let's change this to be like updates in other projects
 
         });
     } catch (err) {
@@ -74,18 +71,16 @@ router.put("/update/:room/:id", async (req, res) => {
 });
 
 //delete......
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:room/:id", async (req, res) => {
     try {
-        let indexOfItem = db.findIndex((i) => i.Room == req.params.id);
-        db.splice(indexOfItem, 1);
-        db.forEach((i, idx) => {
-            i.Room = idx + 1;
-        });
+        const filter = {room: req.params.room, msg_id: req.params.id};
 
-            if (err) throw err;
+        await Message.findOneAndDelete(filter);
+
+
+            
             res.status(200).json({
                 Deleted: 1,
-                Results: db,
             });
         } catch (err) {
             res.status(500).json({
