@@ -14,22 +14,19 @@ const RoomSchema = new mongoose.Schema({
             type: String,
             required: true,
 
-            minlength: 1},
-        addUsers: {
+            minlength: 1,
+        },
+        addedUsers: {
             type: Array,
         },
-        
-    
-    
-
             minlength: 1,
         },
 
  //? Redid user coding 2/17. Let me know if this works or not.       
-        addedUsers: {
-            type: [String],
-            required: true,
-        }
+//        addedUsers: {
+//            type: [String],
+//            required: true,
+//        }
 // I commented out line 25-31 so line 20 can be tested on your end. 2/17 TC
 
 // HEAD:server/routers/room.js
@@ -40,12 +37,11 @@ const RoomSchema = new mongoose.Schema({
  //       },
 // 59c297e8c7ff53ab6051c03f1eafd42a5c263b26:server/models/room.js
            
-
-},
+);
 {
     //test this out when doing routes
     timestamps: true
-}
-);
+};
+
 
 module.exports = mongoose.model("room", RoomSchema);

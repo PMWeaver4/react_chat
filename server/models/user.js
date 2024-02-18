@@ -17,18 +17,13 @@ const UserSchema = new mongoose.Schema ({
             type: String,
             required: true,
             minlength: 1,
-
-            unique: true},
-        password: {type: String,
-
             unique: true,
         },
         password: {
             type: String,
-
-            required: true,
+            unique: true,
             minlength: 1,
-        }, 
+        },
 
 //test this out when doing routes
     timestamps: true
