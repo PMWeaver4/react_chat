@@ -78,12 +78,23 @@ router.put("/update/:room/:id", async (req, res) => {
 //delete......
 router.delete("/delete/:room/:id", async (req, res) => {
     try {
+
         const filter = {room: req.params.room, msg_id: req.params.id};
 
         await Message.findOneAndDelete(filter);
 
+        const message = await Message.findByIdAndDelete(req.params.id);
+        const allResults = await Message.find().populate
+        ("message", [
+            "when",
+            "user",
+            "room",
+            "body",
+            "_id",
+        ]);
 
-            
+            if (!message) throw new Error("Message not found");
+
             res.status(200).json({
                 Deleted: 1,
             });
