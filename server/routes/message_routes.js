@@ -40,6 +40,7 @@ router.post("/create/", async(req,res) => {
             body: req.body.body,
             user: req.user._id,
         });
+        
         const newPost = await post.save();
         console.log(Count);
         res.status(200).json({

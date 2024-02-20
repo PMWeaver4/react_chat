@@ -7,7 +7,7 @@ const RoomSchema = new mongoose.Schema(
         name: {
             type: String,
             required: true,
-
+            unique: true
             //? Commented out line 11 on 2/17. Do we need minlength for name?
             // minlength: 1,
         },
