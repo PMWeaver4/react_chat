@@ -55,14 +55,11 @@ router.post("/create/", async(req,res) => {
     }
  });
 
-
-            
-        });
         const newPost = await post.save();
         res.status(200).json({
             Created: newPost,
         })
-    }catch(err){
+    } catch(err){
         console.log(err);
         res.status(500).json({
             Error:err,

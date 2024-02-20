@@ -57,10 +57,10 @@ router.put("/update/:room/:id", async (req, res) => {
         const update = {room: req.body.room,body: req.body.body};
         
 
-        const filtered = await Message.findOneAndUpdate(filter, update,{new: true});
+        const updated = await Message.findOneAndUpdate(filter, update,{new: true});
 
         res.status(200).json({
-            Results: filtered,
+            Results: updated,
 
         });
     } catch (err) {
@@ -78,20 +78,22 @@ router.delete("/delete/:room/:id", async (req, res) => {
 
         await Message.findOneAndDelete(filter);
 
-        const message = await Message.findByIdAndDelete(req.params.id);
+        // const message = await Message.findByIdAndDelete(req.params.id);
         const allResults = await Message.find().populate
         ("message", [
             "when",
             "user",
             "room",
             "body",
-            "_id",
+            "msg_id",
         ]);
 
             if (!message) throw new Error("Message not found");
 
             res.status(200).json({
+                
                 Deleted: 1,
+                Results: allResults,
             });
         } catch (err) {
             res.status(500).json({
@@ -102,3 +104,6 @@ router.delete("/delete/:room/:id", async (req, res) => {
 
 
 module.exports = router;
+
+
+//commenting
