@@ -44,10 +44,25 @@ router.post("/create/", async(req,res) => {
             createdAt:1,
             updatedAt: 1,
         });
+
         res.status(200).json({
             Results: results,
         });
-    } catch (err) {
+   
+     } catch (err) {
+        res.status(500).json({
+          Error: err,
+        });
+    }
+ });
+
+        const newPost = await post.save();
+        res.status(200).json({
+            Created: newPost,
+        })
+    } catch(err){
+        console.log(err);
+
         res.status(500).json({
             Error: err,
         });
