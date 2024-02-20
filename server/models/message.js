@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const message = require("./message");
+const User = require("./user");
+const Room = require("./room");
 
 const MessageSchema = new mongoose.Schema(
     {
@@ -10,20 +12,21 @@ const MessageSchema = new mongoose.Schema(
             default: Date.now,
         },
         user: {
-            type: String,
-            required: true,
-            minlength: 1},
+                type: mongoose.ObjectId,
+                required: true,
+                ref: User
+            },
         room: {
-            type: String,
+            type: mongoose.ObjectId,
             required: true,
-            minlength: 1},
+            ref: Room
+        },
         body: {
             type: String,
             required: true,
             minlength: 1},
-        msg_id: {type: String,
-            // required: true,
-            // minlength: 1
+        msg_id: {type: Number,
+
         },
    
     

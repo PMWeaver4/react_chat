@@ -1,6 +1,9 @@
 const router = require("express").Router();
 
 const Message = require("../models/message");
+// const User = require("../models/user");
+const Room = require("../models/room");
+const user = require("../models/user");
 
 
 
@@ -26,15 +29,16 @@ router.get("/get_room/:room", async(req,res) => {
 
 // creat a message
 router.post("/create/", async(req,res) => {
+    
     try{
-
+        //create a count to give messages incremental id number
         const Count = await Message.countDocuments({});
-
+        
         let post = new Message({
             msg_id: Count,
-            user: req.body.user,
-            room: req.body.room,
+            room: req.body.room_id,
             body: req.body.body,
+            user: req.user._id,
         });
         const newPost = await post.save();
         console.log(Count);
