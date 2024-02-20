@@ -7,8 +7,7 @@ const Room = require("../models/room");
 
 
 
-router.post("/create/:id", async (req,res) => {
-    try {
+
 
 router.post("/create/", async(req,res) => {
     try{
@@ -45,9 +44,11 @@ router.post("/create/", async(req,res) => {
             createdAt:1,
             updatedAt: 1,
         });
-    res.status(200).json({
-        Results: results,
-    });
+
+        res.status(200).json({
+            Results: results,
+        });
+   
      } catch (err) {
         res.status(500).json({
           Error: err,
@@ -61,11 +62,17 @@ router.post("/create/", async(req,res) => {
         })
     } catch(err){
         console.log(err);
+
         res.status(500).json({
-            Error:err,
+            Error: err,
         });
     }
 });
+
+
+
+
+
 
 
 // [PUT] Adding Update Endpoint
@@ -113,6 +120,7 @@ router.delete("/delete/:id", (req, res) => {
         }
     });
 
+    
     
 
 module.exports = router;

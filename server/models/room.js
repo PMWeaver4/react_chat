@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 const room = require("./room");
 
-const RoomSchema = new mongoose.Schema({
+const RoomSchema = new mongoose.Schema(
+    {
     
         name: {
             type: String,
             required: true,
+            unique: true,
         },
         description: {
             type: String,
@@ -15,9 +17,14 @@ const RoomSchema = new mongoose.Schema({
             type: Array,
             minlength: 1,
         },
-    },
-    
-   );
 
+        
+    },
+    {
+        //test this out when doing routes
+        timestamps: true
+    }
+    );
+    
 
 module.exports = mongoose.model("room", RoomSchema);

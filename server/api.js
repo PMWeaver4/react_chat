@@ -43,7 +43,7 @@ app.use(cors());
 //? Using the controllers
 app.use("/user", userRoutes);
 //validate before doing postcontroller
-// app.use(validateSession);
+app.use(validateSession);
 app.use("/message", messageRoutes);
 app.use("/room", roomRoutes);
 //can also do app.use("/post", validateSession, postController)

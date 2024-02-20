@@ -24,11 +24,15 @@ const UserSchema = new mongoose.Schema ({
             unique: true,
             minlength: 1,
         },
+        
+    },
+    {
+    //test this out when doing routes
+    timestamps: true
+    }
 
-//test this out when doing routes
-   // timestamps: true
 
-});
+);
 
 module.exports = mongoose.model("user", UserSchema);
 
