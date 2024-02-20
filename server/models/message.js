@@ -1,21 +1,31 @@
 const mongoose = require("mongoose");
 const message = require("./message");
 
-const MessageSchema = new mongoose.Schema({
+const MessageSchema = new mongoose.Schema(
+    {
     
-        when: {type: String,
+        when: {
+            type: Date,
+            required: true,
+            default: Date.now,
+        },
+        user: {
+            type: String,
             required: true,
             minlength: 1},
-        user: {type: String,
+        room: {
+            type: String,
             required: true,
             minlength: 1},
-        room: {type: String,
+        body: {
+            type: String,
             required: true,
             minlength: 1},
-        body: {type: String,
-            required: true,
-            minlength: 1},
-    
+        msg_id: {type: String,
+            // required: true,
+            // minlength: 1
+        },
+   
     
 }, 
 {

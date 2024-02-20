@@ -42,7 +42,7 @@ const validate = async(req, res, next) => {
             Error:err.message
         });
     }
-    }
+    };
     
     
     module.exports = validate;
