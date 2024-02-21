@@ -71,7 +71,7 @@ router.post("/login", async (req,res) => {
 router.delete("/delete/:id", async (req, res) => {
     try {
 
-        const message = await user.findByIdAndDelete(req.params.id);
+        const user = await User.findByIdAndDelete(req.params.id);
 
             if (!user) throw new Error("User not found");
 
