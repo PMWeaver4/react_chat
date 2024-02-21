@@ -26,7 +26,6 @@ const MessageSchema = new mongoose.Schema(
             required: true,
             minlength: 1},
         msg_id: {type: Number,
-
         },
    
     

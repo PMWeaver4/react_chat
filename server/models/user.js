@@ -23,11 +23,14 @@ const UserSchema = new mongoose.Schema ({
             type: String,
             unique: true,
             minlength: 1,
-        }        
+        }
+
+        
+        
     },
     {
     timestamps: true
-}
+    }
 
 
 );

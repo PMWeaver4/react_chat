@@ -62,10 +62,10 @@ router.put("/update/:room/:id", async (req, res) => {
         const update = {room: req.body.room,body: req.body.body};
         
 
-        const filtered = await Message.findOneAndUpdate(filter, update,{new: true});
+        const updated = await Message.findOneAndUpdate(filter, update,{new: true});
 
         res.status(200).json({
-            Results: filtered,
+            Results: updated,
 
         });
     } catch (err) {
@@ -80,6 +80,7 @@ router.delete("/delete/:id", async (req, res) => {
     try {
 
         const message = await Message.findByIdAndDelete(req.params.id);
+
 
             if (!message) throw new Error("Message not found");
 

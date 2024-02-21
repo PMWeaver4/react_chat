@@ -38,11 +38,20 @@ router.post("/create/", async(req,res) => {
 
   router.get("/all", async (req, res) => {
     try {
-        let results = await Room.find().select( ["name", "description", "addedUsers"]);
-        res.status(200).json({
-            Results: results,
+        let results = await this.post.find().populate("user_id", ["firstName", "lastName", "-_id"])
+        .select({
+            text: 1,
+            createdAt:1,
+            updatedAt: 1,
         });
-    } catch (err) {
+
+        const newPost = await post.save();
+        res.status(200).json({
+            Created: newPost,
+        })
+    } catch(err){
+        console.log(err);
+
         res.status(500).json({
             Error: err,
         });

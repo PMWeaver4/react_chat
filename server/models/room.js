@@ -12,19 +12,18 @@ const RoomSchema = new mongoose.Schema(
         description: {
             type: String,
             required: true,
-
-            minlength: 1,
         },
         addedUsers: {
             type: Array,
             minlength: 1,
         },
+
         
     },
     {
         timestamps: true
     }
     );
-
+    
 
 module.exports = mongoose.model("room", RoomSchema);
