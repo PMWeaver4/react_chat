@@ -38,12 +38,7 @@ router.post("/create/", async(req,res) => {
 
   router.get("/all", async (req, res) => {
     try {
-        let results = await this.post.find().populate("user_id", ["firstName", "lastName", "-_id"])
-        .select({
-            text: 1,
-            createdAt:1,
-            updatedAt: 1,
-        });
+        let results = await Room.find().select( ["name", "description", "addedUsers"]);
         res.status(200).json({
             Results: results,
         });
@@ -62,19 +57,30 @@ router.post("/create/", async(req,res) => {
 
 // [PUT] Adding Update Endpoint
 
-router.put("/update/:id", (req, res) => {
+router.put("/update/:name", async (req, res) => {
     try {
-        // Grabbing the index of an item/obj that matches our param id
-        let indexOfItem = db.finIndex((i) => i.Room == req.params.id);
-
-        db[indexOfItem] = {
-            name: req.params.name,
+        
+        const roomToUpdate = await Room.findOne({name: req.params.name}).exec();
+        let newUsers = [...roomToUpdate.addedUsers];
+        newUsers.push(...req.body.addedUsers);
+        newUsers = newUsers.filter((user) => !req.body.removedUsers.includes(user));
+        // console.log(newUsers);
+        
+        const roomUpdated = await roomToUpdate.updateOne( {
+            name: req.body.name,
             description: req.body.description,
-            addedUsers: req.body.addedUsers,
-        };
+            addedUsers: newUsers,
+            
+
+        }  ).exec();
+
+        // const roomReturnUPdated = {};
+        const roomReturnUPdated = await Room.findOne({name: req.body.name}).exec();
+        console.log(`roomReturn ${roomReturnUPdated}`);
+
         res.status(200).json({
-            Updated: db[indexOfItem],
-            Results: db,
+            Updated: roomReturnUPdated,
+            Results: roomReturnUPdated,
         });
     } catch (err) {
         res.status(500).json({
@@ -86,13 +92,13 @@ router.put("/update/:id", (req, res) => {
 // [DELETE] - Remove an item from the db
 router.delete("/delete/:id", (req, res) => {
     try {
+        //Room.delete
         let indexOfItem = db.findIndex((i) => i.Room == req.params.id);
         db.splice(indexOfItem, 1);
         db.forEach((i, idx) => {
             i.Room = idx + 1;
         });
-        // Need to add fs for delete
-        // fs.unlink('mynewfile2.txt', function (err) {
+
             if (err) throw err;
             res.status(200).json({
                 Deleted: 1,
