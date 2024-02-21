@@ -64,7 +64,6 @@ router.put("/update/:name", async (req, res) => {
         let newUsers = [...roomToUpdate.addedUsers];
         newUsers.push(...req.body.addedUsers);
         newUsers = newUsers.filter((user) => !req.body.removedUsers.includes(user));
-        // console.log(newUsers);
         
         const roomUpdated = await roomToUpdate.updateOne( {
             name: req.body.name,
@@ -74,7 +73,6 @@ router.put("/update/:name", async (req, res) => {
 
         }  ).exec();
 
-        // const roomReturnUPdated = {};
         const roomReturnUPdated = await Room.findOne({name: req.body.name}).exec();
         console.log(`roomReturn ${roomReturnUPdated}`);
 
@@ -89,20 +87,16 @@ router.put("/update/:name", async (req, res) => {
     }
 });
 
-// [DELETE] - Remove an item from the db
-router.delete("/delete/:id", (req, res) => {
+// [DELETE] - Remove a room.
+router.delete("/delete/:id", async (req, res) => {
     try {
-        //Room.delete
-        let indexOfItem = db.findIndex((i) => i.Room == req.params.id);
-        db.splice(indexOfItem, 1);
-        db.forEach((i, idx) => {
-            i.Room = idx + 1;
-        });
 
-            if (err) throw err;
+        const message = await Room.findByIdAndDelete(req.params.id);
+
+            if (!Room) throw new Error("Room not found");
+
             res.status(200).json({
                 Deleted: 1,
-                Results: db,
             });
         } catch (err) {
             res.status(500).json({

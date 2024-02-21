@@ -21,8 +21,7 @@ router.post("/create/", async(req,res) => {
         const newUser = await user.save();
 
 
-    // Thoughts on adding token? 2/17   
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "2 days",
     });
 
@@ -47,10 +46,7 @@ router.post("/login", async (req,res) => {
 
         if(!user) throw new Error("User not found");
 
-        // let passwordMatch = (password == user.password);
         let passwordMatch = await bcrypt.compare(password, user.password);
-
-        //console.log(passwordMatch, password, user.password);
 
         if(!passwordMatch) throw new Error("Invalid Details");
 
@@ -71,5 +67,22 @@ router.post("/login", async (req,res) => {
         });
     }
 });
+
+router.delete("/delete/:id", async (req, res) => {
+    try {
+
+        const message = await user.findByIdAndDelete(req.params.id);
+
+            if (!user) throw new Error("User not found");
+
+            res.status(200).json({
+                Deleted: 1,
+            });
+        } catch (err) {
+            res.status(500).json({
+                Error: err,
+            });
+        }
+    });
 
 module.exports = router;

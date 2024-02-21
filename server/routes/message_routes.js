@@ -31,7 +31,7 @@ router.get("/get_room/:room", async(req,res) => {
 router.post("/create/", async(req,res) => {
     
     try{
-        //create a count to give messages incremental id number
+        //create a count to give messages incremental id number, might be useful later...
         const Count = await Message.countDocuments({});
         
         let post = new Message({
