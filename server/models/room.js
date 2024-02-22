@@ -7,7 +7,7 @@ const RoomSchema = new mongoose.Schema(
         name: {
             type: String,
             required: true,
-            unique: true,
+            unique: true
         },
         description: {
             type: String,
@@ -21,7 +21,6 @@ const RoomSchema = new mongoose.Schema(
         
     },
     {
-        //test this out when doing routes
         timestamps: true
     }
     );

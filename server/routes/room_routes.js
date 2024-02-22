@@ -10,20 +10,18 @@ const Room = require("../models/room");
 
 
 router.post("/create/", async(req,res) => {
-    try{
-
-        
-            let post = new Room({
+    try{     
+            let room = new Room({
             name: req.body.name,
             description: req.body.description,
             addedUsers: req.body.addedUsers,
 
         });
 
-        const newPost = await post.save();
+        const newRoom = await room.save();
 
         res.status(200).json({
-            Created: newPost,
+            Created: newRoom,
         });
 
     } catch (err) {
@@ -35,30 +33,19 @@ router.post("/create/", async(req,res) => {
 });
 
 // Display all rooms endpoint
-
   router.get("/all", async (req, res) => {
     try {
-        let results = await this.post.find().populate("user_id", ["firstName", "lastName", "-_id"])
+
+        let results = await Room.find().populate( ["name", "description", "addedUsers"])
         .select({
             text: 1,
             createdAt:1,
             updatedAt: 1,
         });
 
+        // const newRoom = await post.save();
         res.status(200).json({
-            Results: results,
-        });
-   
-     } catch (err) {
-        res.status(500).json({
-          Error: err,
-        });
-    }
- });
-
-        const newPost = await post.save();
-        res.status(200).json({
-            Created: newPost,
+            Created: results,
         })
     } catch(err){
         console.log(err);
@@ -69,27 +56,30 @@ router.post("/create/", async(req,res) => {
     }
 });
 
-
-
-
-
-
-
 // [PUT] Adding Update Endpoint
-
-router.put("/update/:id", (req, res) => {
+router.put("/update/:name", async (req, res) => {
     try {
-        // Grabbing the index of an item/obj that matches our param id
-        let indexOfItem = db.finIndex((i) => i.Room == req.params.id);
-
-        db[indexOfItem] = {
-            name: req.params.name,
+        //pluck the room out of available rooms
+        const roomToUpdate = await Room.findOne({name: req.params.name}).exec();
+        //add a user function
+        let newUsers = [...roomToUpdate.addedUsers];
+        newUsers.push(...req.body.addedUsers);
+        //remove a user function
+        newUsers = newUsers.filter((user) => !req.body.removedUsers.includes(user));
+        //update the room
+        const roomUpdated = await roomToUpdate.updateOne( {
+            name: req.body.name,
             description: req.body.description,
-            addedUsers: req.body.addedUsers,
-        };
+            addedUsers: newUsers,
+            
+
+        }  ).exec();
+
+        const roomReturnUPdated = await Room.findOne({name: req.body.name}).exec();
+
         res.status(200).json({
-            Updated: db[indexOfItem],
-            Results: db,
+            Updated: roomReturnUPdated,
+            Results: roomReturnUPdated,
         });
     } catch (err) {
         res.status(500).json({
@@ -98,20 +88,16 @@ router.put("/update/:id", (req, res) => {
     }
 });
 
-// [DELETE] - Remove an item from the db
-router.delete("/delete/:id", (req, res) => {
+// [DELETE] - Remove a room.
+router.delete("/delete/:id", async (req, res) => {
     try {
-        let indexOfItem = db.findIndex((i) => i.Room == req.params.id);
-        db.splice(indexOfItem, 1);
-        db.forEach((i, idx) => {
-            i.Room = idx + 1;
-        });
-        // Need to add fs for delete
-        // fs.unlink('mynewfile2.txt', function (err) {
-            if (err) throw err;
+        //find room and delete
+        const room = await Room.findByIdAndDelete(req.params.id);
+
+            if (!Room) throw new Error("Room not found");
+
             res.status(200).json({
                 Deleted: 1,
-                Results: db,
             });
         } catch (err) {
             res.status(500).json({

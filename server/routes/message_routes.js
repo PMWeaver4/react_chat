@@ -1,17 +1,12 @@
 const router = require("express").Router();
 
 const Message = require("../models/message");
-// const User = require("../models/user");
 const Room = require("../models/room");
 const user = require("../models/user");
 
-
-
 //display all in a room
 router.get("/get_room/:room", async(req,res) => {
-    try{
-        
-        
+    try{       
         let filtered = await Message.find({room: req.params.room}).populate("room").select(["when", "user", "body"])
         
         res.status(200).json({
@@ -20,7 +15,7 @@ router.get("/get_room/:room", async(req,res) => {
 
     } catch(err) {
         console.log(err);
-        console.log(req.params.id);
+        console.log(req.params.room);
         res.status(500).json({
             Error:err,
     });
@@ -31,7 +26,7 @@ router.get("/get_room/:room", async(req,res) => {
 router.post("/create/", async(req,res) => {
     
     try{
-        //create a count to give messages incremental id number
+        //create a count to give messages incremental id number, might be useful later...
         const Count = await Message.countDocuments({});
         
         let post = new Message({
@@ -41,6 +36,7 @@ router.post("/create/", async(req,res) => {
             user: req.user._id,
         });
         
+        //save created object to the database
         const newPost = await post.save();
         console.log(Count);
         res.status(200).json({
@@ -58,12 +54,13 @@ router.post("/create/", async(req,res) => {
 //update
 router.put("/update/:room/:id", async (req, res) => {
     try {
+        //use params to match message with request to update
         const filter = {room: req.params.room, msg_id: req.params.id};
         const update = {room: req.body.room,body: req.body.body};
         
-
+        //update in mongoose
         const updated = await Message.findOneAndUpdate(filter, update,{new: true});
-
+        //display updated message
         res.status(200).json({
             Results: updated,
 
@@ -76,29 +73,16 @@ router.put("/update/:room/:id", async (req, res) => {
 });
 
 //delete......
-router.delete("/delete/:room/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
     try {
+        //find the requested message and delete it
+        const message = await Message.findByIdAndDelete(req.params.id);
 
-        const filter = {room: req.params.room, msg_id: req.params.id};
-
-        await Message.findOneAndDelete(filter);
-
-        // const message = await Message.findByIdAndDelete(req.params.id);
-        const allResults = await Message.find().populate
-        ("message", [
-            "when",
-            "user",
-            "room",
-            "body",
-            "msg_id",
-        ]);
 
             if (!message) throw new Error("Message not found");
 
             res.status(200).json({
-                
                 Deleted: 1,
-                Results: allResults,
             });
         } catch (err) {
             res.status(500).json({
@@ -109,6 +93,3 @@ router.delete("/delete/:room/:id", async (req, res) => {
 
 
 module.exports = router;
-
-
-//commenting

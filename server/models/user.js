@@ -23,11 +23,12 @@ const UserSchema = new mongoose.Schema ({
             type: String,
             unique: true,
             minlength: 1,
-        },
+        }
+
+        
         
     },
     {
-    //test this out when doing routes
     timestamps: true
     }
 
