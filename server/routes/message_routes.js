@@ -15,7 +15,7 @@ router.get("/get_room/:room", async(req,res) => {
 
     } catch(err) {
         console.log(err);
-        console.log(req.params.room);
+        //console.log(req.params.room);
         res.status(500).json({
             Error:err,
     });
