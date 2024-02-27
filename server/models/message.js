@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const message = require("./message");
+
 const User = require("./user");
 const Room = require("./room");
 

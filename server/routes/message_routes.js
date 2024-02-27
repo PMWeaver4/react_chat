@@ -22,7 +22,7 @@ router.get("/get_room/:room", async(req,res) => {
 }
 })
 
-// creat a message
+// create a message
 router.post("/create/", async(req,res) => {
     
     try{

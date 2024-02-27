@@ -46,7 +46,6 @@ app.use("/user", userRoutes);
 app.use(validateSession);
 app.use("/message", messageRoutes);
 app.use("/room", roomRoutes);
-//can also do app.use("/post", validateSession, postController)
 
 //? Initial spin up of the Express server
 app.listen(PORT, () => {
@@ -57,6 +56,3 @@ app.listen(PORT, () => {
       console.log("Error connecting", err);
     }
   });
-
-  // trying it again
-  // more comments, w00t!
