@@ -11,6 +11,7 @@ function App() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleChange = (state, value) => {
     switch(state){
@@ -33,7 +34,7 @@ function App() {
 
 const handleSignup = async() => {
 try{
-
+  setError("");
   const response = await(await fetch("http://localhost:7000/user/create", {
     method: "POST",
     headers: {
@@ -48,6 +49,10 @@ try{
   })
 ).json()
 console.log(response);
+if (response.Error) {
+  setError("try again");
+
+}
 }catch(err){
   console.log(err)
 }
@@ -70,6 +75,7 @@ console.log(response);
       </>
     }
      */}
+     {error}
      something, anything
      <AuthComponent handleChange={handleChange} handleSignup={handleSignup} />
     </>
