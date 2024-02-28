@@ -1,37 +1,37 @@
 import React from 'react'
 import {useState, useEffect } from "react";
 
-// Using "Input" for input text box
-const Input = () => {
-  const [results, setResults] = useState([]);
-  
-  useEffect(() => {
-    const getInput = async () => {
-      try {
-        const response = await fetch(`localhost:{{PORT}}/product?min=0&max=100&tags=snack,electronics,gaming`, { 
-          headers: {
-            Authorization:`Bearer ${localStorage.getItem("MyToken")}`,
-        },
-      }
-    );
-      const json = await response.json()
+// creating a room for message
+function Room ({ roomId }) {
 
+  const [messages, setMessages] = useState([]);
+  const [createMessage, setCreateMessage] = useState([]);
+    
+    useEffect(() => {
+      const fetchMessage = async () => {
+        try {
+          const response = await fetch(``,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("MyToken")}`,
+            },
+          }
+          );
+          const json = await response.json();
+          
           console.log(json);
-
-      } catch(err){
+      } catch (err) {
         console.log(err);
       }
+    };
+      fetchMessage();
+      }, []);
 
-    }
+      return <div>room</div>;
+  };
+    
 
-    getProducts()
-  }, []); 
-
-  return <div>products</div>;
-  
-};
-
-export default Product;
+export default Room;
  
 //export const RoomsComponent = () => {
 //  return (
