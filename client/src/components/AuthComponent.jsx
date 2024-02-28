@@ -13,6 +13,7 @@ export const AuthComponent = ({handleChange, handleSignup}) => {
           <label>Password</label>
           <input onChange={(e)=>handleChange("password", e.target.value)}/>
           <button type="button" onClick={handleSignup}>Signup!</button>
+          <button type="button" >Already Signed UP? Log-in</button>
       </form>
 
   </div>

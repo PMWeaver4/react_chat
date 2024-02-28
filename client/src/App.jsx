@@ -2,6 +2,7 @@ import { useState } from 'react'
 // import {Routes, Route, Navigate} from "react-router-dom";
 // import {AuthComponent, rooms_component} from "./components";
 import {AuthComponent} from "./components/AuthComponent";
+import {RoomsComponent} from "./components/RoomsComponent";
 import './App.css'
 
 function App() {
@@ -12,6 +13,13 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState("");
+
+  useEffect(()=>{
+    if(localStorage.getItem("MyToken")){
+      sessionToken(localStorage.getItem("MyToken"))
+    }
+  },[])
 
   const handleChange = (state, value) => {
     switch(state){
@@ -47,16 +55,32 @@ try{
       password: password
     }),
   })
-).json()
+  ).json()
+  setIsLoggedIn("true");
 console.log(response);
 if (response.Error) {
   setError("try again");
-
+  setIsLoggedIn("");
 }
+updateToken(response.Token);
 }catch(err){
   console.log(err)
+  setIsLoggedIn("");
 }
 }
+
+const updateToken = (token) => {
+  console.log("Token updated");
+  localStorage.setItem("MyToken", token);
+  setSessionToken(token);
+}
+
+const clearToken = () => {
+  console.log("Token cleared!");
+  localStorage.removeItem("MyToken")
+  setSessionToken("");
+}
+
 
   return (
     <>
@@ -76,9 +100,15 @@ if (response.Error) {
     }
      */}
      {error}
-     something, anything
+     
+     {isLoggedIn ?
+     <RoomsComponent />:
      <AuthComponent handleChange={handleChange} handleSignup={handleSignup} />
-    </>
+     
+     }
+    
+     </> 
+    
   )
 }
 
