@@ -13,7 +13,7 @@ const [displayRooms, setDisplayRooms] = useState("");
   }
   
   return (
-    {displayRooms}
+    {displayRooms},
     <div>RoomsComponent</div>
     
   )
