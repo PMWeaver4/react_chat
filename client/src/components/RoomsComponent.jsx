@@ -1,8 +1,8 @@
-import React from 'react'
-import {useState, useEffect } from "react";
+import React, {useState, useEffect } from "react";
 
+export const RoomsComponent = () => {
 // creating a room for message
-function Room ({ roomId }) {
+function roomComponent ({ roomId }) {
 
   const [messages, setMessages] = useState([]);
   const [createMessage, setCreateMessage] = useState([]);
@@ -29,11 +29,10 @@ function Room ({ roomId }) {
 
       return <div>room</div>;
   };
-    
+};  
 
-export default Room;
+//export default RoomComponent;
  
-//export const RoomsComponent = () => {
 //  return (
  //   <div>RoomsComponent</div>
 //  )
