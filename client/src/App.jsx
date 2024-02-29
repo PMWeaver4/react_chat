@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // import {Routes, Route, Navigate} from "react-router-dom";
 // import {AuthComponent, rooms_component} from "./components";
 import {AuthComponent} from "./components/AuthComponent";
@@ -17,7 +17,7 @@ function App() {
 
   useEffect(()=>{
     if(localStorage.getItem("MyToken")){
-      sessionToken(localStorage.getItem("MyToken"))
+      setSessionToken(localStorage.getItem("MyToken"))
     }
   },[])
 
@@ -56,14 +56,17 @@ try{
     }),
   })
   ).json()
+  console.log(response);
+  if (response.Error) {
+    
+    throw new Error(response.Error.message);
+    
+  }
+  updateToken(response.Token);
   setIsLoggedIn("true");
-console.log(response);
-if (response.Error) {
-  setError("try again");
-  setIsLoggedIn("");
-}
-updateToken(response.Token);
 }catch(err){
+  const message = err.message ? err.message: "an error occured, please try again";
+  setError(message);
   console.log(err)
   setIsLoggedIn("");
 }
