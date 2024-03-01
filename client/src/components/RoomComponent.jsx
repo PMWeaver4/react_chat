@@ -1,41 +1,80 @@
-import React, {useState, useEffect } from "react";
+import React, {useState, useEffect} from 'react'
 
-export const RoomsComponent = () => {
-// creating a room for message
-function roomComponent ({ roomId }) {
+export const RoomComponent = () => {
+    const [userText, setUserText] = useState("");
+    const [allRoom, setallRoom] = useState([]);
+    const [status, setStatus] = useState("");
 
-  const [messages, setMessages] = useState([]);
-  const [createMessage, setCreateMessage] = useState([]);
-    
     useEffect(() => {
-      const fetchMessage = async () => {
+        
+        const getallRoom = async () => {
+            try{
+                const json = await (
+                    await fetch("http://localhost:7000/room/all", {
+                       headers: {
+                        Authorization: `Bearer ${localStorage.getItem("MyToken")}`,
+                       }, 
+                    })
+                ).json();
+
+             setallRoom(json.Results);   
+            }catch(err){
+                console.log(err);
+            }
+        };
+
+        getallRoom();
+    }, [status]); 
+
+    const handleSubmit = async () => {
         try {
-          const response = await fetch(``,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("MyToken")}`,
-            },
-          }
-          );
-          const json = await response.json();
-          
-          console.log(json);
-      } catch (err) {
-        console.log(err);
-      }
+            setStatus("Loading");
+            const json = await (
+                await fetch("http://localhost:7000/room/create", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("MyToken")}`,
+                    },
+                    body: JSON.stringify({
+                        text: userText
+                    })
+                })
+            ).json();
+
+          if(json.created){
+            setStatus("Room Created");
+          }  
+        }catch (err) {
+            console.log(err);
+        }
     };
-      fetchMessage();
-      }, []);
 
-      return <div>room</div>;
-  };
-};  
+    const displayallRoom = () => {
+      console.log( allRoom);
+        return allRoom?.map(i => (
+            <div style={{ border: ".5em solid white"}} key={i._id}>
+                <p>
+                    <b>{i.text}</b>
+                </p>
+            </div>
+       ))
+       .reverse();
+    };
 
-//export default RoomComponent;
- 
-//  return (
- //   <div>RoomsComponent</div>
-//  )
-//}
+
+    return (
+    <div>
+        <h1>Rooms</h1>
+        <input onChange={(e) => setUserText(e.target.value)} />
+        <button onClick={handleSubmit}>Create a room</button>
 
 
+        <h2>All Rooms</h2>
+        {displayallRoom()}
+        <div>
+            {}
+        </div>
+    </div>
+  );
+};
