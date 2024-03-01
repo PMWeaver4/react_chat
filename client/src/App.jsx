@@ -65,10 +65,40 @@ try{
 }catch(err){
   const message = err.message ? err.message: "an error occured, please try again";
   setError(message);
-  console.log(err)
+  console.log(err);
   setIsLoggedIn("");
 }
 }
+
+const handleSignin = async() => {
+  try{
+    setError("");
+    const response = await(await fetch("http://localhost:7000/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+    })
+    ).json()
+    console.log(response);
+    if (response.Error) {
+      
+      throw new Error(response.Error.message);
+      
+    }
+    updateToken(response.Token);
+    setIsLoggedIn("true");
+  }catch(err){
+    const message = err.message ? err.message: "an error occured, please try again";
+    setError(message);
+    console.log(err);
+    setIsLoggedIn("");
+  }
+  }
 
 const updateToken = (token) => {
   console.log("Token updated");
@@ -85,32 +115,17 @@ const clearToken = () => {
 
   return (
     <>
-{/*     
-    {firstName}
-    {lastName}
-    {email}
-    {password}
-    {!sessionToken ?
 
-      <Signup handleChange={handleChange} handleSignup={handleSignup}/>
-      :
-      <>
-      <button>Logout</button>
-      <p>[Products]</p>
-      </>
-    }
-     */}
      {error}
      
      {isLoggedIn ?
      <RoomComponent />:
-     <AuthComponent handleChange={handleChange} handleSignup={handleSignup} />
-     
+     <AuthComponent handleChange={handleChange} handleSignup={handleSignup}  nadleSignin={handleSignin}/>
      }
     
      </> 
     
   )
 }
-
+//wee
 export default App

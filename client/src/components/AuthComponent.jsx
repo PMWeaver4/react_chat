@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-export const AuthComponent = ({handleChange, handleSignup}) => {
+
+export const AuthComponent = ({handleChange, handleSignup, handleSignin}) => {
+  let logState ="";
   return( <div>
       <form style={{display: "flex", flexDirection: "column"}}>
           <h2>Signup</h2>
@@ -13,8 +15,21 @@ export const AuthComponent = ({handleChange, handleSignup}) => {
           <label>Password</label>
           <input onChange={(e)=>handleChange("password", e.target.value)}/>
           <button type="button" onClick={handleSignup}>Signup!</button>
-          <button type="button" >Already Signed UP? Log-in</button>
+          <br/>
+          <button type="button" onClick={()=>{logState = true}}>Already Signed UP? Log-in</button>
       </form>
+      {/* make this work */}
+      {logState}
+      {logState ?
+      <form style={{display: "flex", flexDirection: "column"}}>
+          <label>Email</label>
+          <input onChange={(e)=>handleChange("email", e.target.value)}/>
+          <label>Password</label>
+          <input onChange={(e)=>handleChange("password", e.target.value)}/>
+          <button type="button" onClick={handleSignin}>Sign In!</button>
+      </form> :
+      <></>
+      }
 
   </div>
   )
