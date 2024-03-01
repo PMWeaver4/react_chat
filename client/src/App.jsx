@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react'
-// import {Routes, Route, Navigate} from "react-router-dom";
-// import {AuthComponent, rooms_component} from "./components";
+import { useState, useEffect } from 'react';
 import {AuthComponent} from "./components/AuthComponent";
-import {RoomsComponent} from "./components/RoomsComponent";
-import './App.css'
+import {RoomComponent} from "./components/RoomComponent";
+import './App.css';
 
 function App() {
   
@@ -105,7 +103,7 @@ const clearToken = () => {
      {error}
      
      {isLoggedIn ?
-     <RoomsComponent />:
+     <RoomComponent />:
      <AuthComponent handleChange={handleChange} handleSignup={handleSignup} />
      
      }
