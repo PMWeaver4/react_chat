@@ -19,8 +19,8 @@ export const RoomComponent = () => {
                     })
                 ).json();
 
-             setallRoom(json.Results); 
-                    console.log(json.Results);
+             setallRoom(json.Created); 
+                    console.log(json);
             }catch(err){
                 console.log(err);
             }
@@ -46,7 +46,7 @@ export const RoomComponent = () => {
                     })
                 })
             ).json();
-                console.log(json);
+                console.log(json.Created);
           if(json.created){
             setStatus("Room Created");
           }  
@@ -60,7 +60,7 @@ export const RoomComponent = () => {
         return allRoom?.map(i => (
             <div style={{ border: ".5em solid white"}} key={i._id}>
                 <p>
-                    <b>{i.text}</b>
+                    <b>{i.name}</b>
                 </p>
             </div>
        ))
