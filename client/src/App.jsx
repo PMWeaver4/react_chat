@@ -120,7 +120,7 @@ const clearToken = () => {
      
      {isLoggedIn ?
      <RoomComponent />:
-     <AuthComponent handleChange={handleChange} handleSignup={handleSignup}  nadleSignin={handleSignin}/>
+     <AuthComponent handleChange={handleChange} handleSignup={handleSignup}  handleSignin={handleSignin}/>
      }
     
      </> 
