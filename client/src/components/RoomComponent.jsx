@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-
+import { useNavigate } from 'react-router-dom'
 
 export const RoomComponent = () => {
     const [roomName, setRoomName] = useState("");
@@ -7,8 +7,8 @@ export const RoomComponent = () => {
     const[roomUsers, setRoomUsers] = useState([]);
     const [allRoom, setallRoom] = useState([]);
     const [status, setStatus] = useState("");
-    const deleteForm = getElemId("delete");
-
+    const [allMessages, setAllMessages] = useState("");
+    
     useEffect(() => {
         
         const getallRoom = async () => {
@@ -57,18 +57,47 @@ export const RoomComponent = () => {
         }
     };
 
+    const getAllInRoom = async(roomID) => {
+      try{
+        const json = await(
+          await fetch(`http://localhost:7000/message/get_room/${roomID}`,{
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("MyToken")}`,
+          },
+          
+          }
+        )).json();
+        setAllMessages(json.Results);
+          displayAllMessages();
+        console.log(json.Results);
+
+      } catch (err){
+        console.log(err);
+      }
+    }
+
+    const displayAllMessages = () => {
+      console.log("something happend");
+      return allMessages?.map(i => (
+        <p key={i._id}>
+          Message: <b>{i.body}</b>
+          When: <b>{i.when}</b>
+        </p>
+      ))
+    }
+
     const displayallRoom = () => {
       
         return allRoom?.map(i => (
             <div style={{ border: ".5em solid white"}} key={i._id}>
-                <button onClick={()=>{console.log(`Get all the messages in [${i.name}] whos unique Mongoose Room ID is${i._id}`)}}>
+                <button onClick={()=>{getAllInRoom(i._id)}}>
                    Room Name: <b>{i.name}</b>
                 </button>
-            
             </div>
        ))
        .reverse();
     };
+    
 
 
     return (
