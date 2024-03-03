@@ -59,9 +59,9 @@ export const RoomComponent = () => {
       
         return allRoom?.map(i => (
             <div style={{ border: ".5em solid white"}} key={i._id}>
-                <p>
-                    <b>{i.name}</b>
-                </p>
+                <button onClick={()=>console.log("boing")}>
+                   Room Name: <b>{i.name}</b>
+                </button>
             </div>
        ))
        .reverse();
@@ -71,10 +71,16 @@ export const RoomComponent = () => {
     return (
     <div>
         <h1>Rooms</h1>
-        <input onChange={(e) => setRoomName(e.target.value)} />
-        <input onChange={(e) => setRoomDescription(e.target.value)} />
-        <input onChange={(e) => setRoomUsers(e.target.value)} />
+        <form>
+
+        <input onChange={(e) => setRoomName(e.target.value)} placeholder='Room Name'/>
+        <br/>
+        <input onChange={(e) => setRoomDescription(e.target.value)} placeholder='Room Description' />
+        <br/>
+        <input onChange={(e) => setRoomUsers(e.target.value) } placeholder='Added Users' />
+        <br/>
         <button onClick={handleSubmit}>Create a room</button>
+        </form>
 
 
         <h2>All Rooms</h2>
