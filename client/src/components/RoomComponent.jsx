@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
+
 export const RoomComponent = () => {
     const [roomName, setRoomName] = useState("");
     const[roomDescription, setRoomDescription] = useState("");
@@ -59,7 +60,7 @@ export const RoomComponent = () => {
       
         return allRoom?.map(i => (
             <div style={{ border: ".5em solid white"}} key={i._id}>
-                <button onClick={()=>console.log("boing")}>
+                <button onClick={()=>{console.log(`Get all the messages in [${i.name}] whos unique Mongoose Room ID is${i._id}`)}}>
                    Room Name: <b>{i.name}</b>
                 </button>
             </div>
