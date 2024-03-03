@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react'
 
+
 export const RoomComponent = () => {
     const [roomName, setRoomName] = useState("");
     const[roomDescription, setRoomDescription] = useState("");
     const[roomUsers, setRoomUsers] = useState([]);
     const [allRoom, setallRoom] = useState([]);
     const [status, setStatus] = useState("");
+    const deleteForm = getElemId("delete");
 
     useEffect(() => {
         
@@ -19,8 +21,8 @@ export const RoomComponent = () => {
                     })
                 ).json();
 
-             setallRoom(json.Results); 
-                    console.log(json.Results);
+             setallRoom(json.Created); 
+                    console.log(json);
             }catch(err){
                 console.log(err);
             }
@@ -46,7 +48,7 @@ export const RoomComponent = () => {
                     })
                 })
             ).json();
-                console.log(json);
+                console.log(json.Created);
           if(json.created){
             setStatus("Room Created");
           }  
@@ -59,9 +61,10 @@ export const RoomComponent = () => {
       
         return allRoom?.map(i => (
             <div style={{ border: ".5em solid white"}} key={i._id}>
-                <p>
-                    <b>{i.text}</b>
-                </p>
+                <button onClick={()=>{console.log(`Get all the messages in [${i.name}] whos unique Mongoose Room ID is${i._id}`)}}>
+                   Room Name: <b>{i.name}</b>
+                </button>
+            
             </div>
        ))
        .reverse();
@@ -71,10 +74,16 @@ export const RoomComponent = () => {
     return (
     <div>
         <h1>Rooms</h1>
-        <input onChange={(e) => setRoomName(e.target.value)} />
-        <input onChange={(e) => setRoomDescription(e.target.value)} />
-        <input onChange={(e) => setRoomUsers(e.target.value)} />
+        <form>
+
+        <input onChange={(e) => setRoomName(e.target.value)} placeholder='Room Name'/>
+        <br/>
+        <input onChange={(e) => setRoomDescription(e.target.value)} placeholder='Room Description' />
+        <br/>
+        <input onChange={(e) => setRoomUsers(e.target.value) } placeholder='Added Users' />
+        <br/>
         <button onClick={handleSubmit}>Create a room</button>
+        </form>
 
 
         <h2>All Rooms</h2>

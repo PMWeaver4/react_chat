@@ -18,5 +18,3 @@ const [displayRooms, setDisplayRooms] = useState("");
     
   )
 }
-
-
