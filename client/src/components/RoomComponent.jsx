@@ -77,7 +77,7 @@ export const RoomComponent = () => {
     }
 
     const displayAllMessages = () => {
-      console.log("something happend");
+      console.log(allMessages);
       return allMessages?.map(i => (
         <p key={i._id}>
           Message: <b>{i.body}</b>
