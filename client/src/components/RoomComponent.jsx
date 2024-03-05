@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
+
 
 export const RoomComponent = () => {
     const [roomName, setRoomName] = useState("");
@@ -7,8 +7,10 @@ export const RoomComponent = () => {
     const[roomUsers, setRoomUsers] = useState([]);
     const [allRoom, setallRoom] = useState([]);
     const [status, setStatus] = useState("");
-    const [allMessages, setAllMessages] = useState("");
-    
+    const [allMessages, setAllMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState("");
+    const [roomId, setRoomId] = useState("");
+        
     useEffect(() => {
         
         const getallRoom = async () => {
@@ -57,6 +59,8 @@ export const RoomComponent = () => {
         }
     };
 
+
+
     const getAllInRoom = async(roomID) => {
       try{
         const json = await(
@@ -68,29 +72,53 @@ export const RoomComponent = () => {
           }
         )).json();
         setAllMessages(json.Results);
-          displayAllMessages();
-        console.log(json.Results);
+
 
       } catch (err){
         console.log(err);
       }
     }
 
-    const displayAllMessages = () => {
-      console.log("something happend");
-      return allMessages?.map(i => (
-        <p key={i._id}>
-          Message: <b>{i.body}</b>
-          When: <b>{i.when}</b>
-        </p>
-      ))
-    }
+    const createNewMessage = () => (
+      <form onSubmit={handleNewMessage}>
+      <input onChange={(e) => setNewMessage(e.target.value)} placeholder="put your message here"></input>
+      <button >Create New Message</button>
+      </form>
+    )
+
+    
+    const handleNewMessage = async (e) => {
+      try {
+        e.preventDefault();
+          setStatus("Loading");
+          const json = await (
+              await fetch("http://localhost:7000/message/create/", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${localStorage.getItem("MyToken")}`,
+                  },
+                  body: JSON.stringify({
+                      room_id: roomId,
+                      body: newMessage,
+                      
+                  })
+              })
+          ).json();
+              console.log(json.Created);
+        if(json.Created){
+          getAllInRoom(roomId)
+        }  
+      }catch (err) {
+          console.log(err);
+      }
+  };
 
     const displayallRoom = () => {
       
         return allRoom?.map(i => (
             <div style={{ border: ".5em solid white"}} key={i._id}>
-                <button onClick={()=>{getAllInRoom(i._id)}}>
+                <button onClick={()=>{getAllInRoom(i._id), setRoomId(i._id)}}>
                    Room Name: <b>{i.name}</b>
                 </button>
             </div>
@@ -117,6 +145,16 @@ export const RoomComponent = () => {
 
         <h2>All Rooms</h2>
         {displayallRoom()}
+       { allMessages?.map(i => (
+         <p key={i._id}>
+          Message: <b>{i.body}</b>
+          When: <b>{i.when}</b>
+
+        </p>
+      ))
+    }
+      {createNewMessage()}
+    
         <div>
             {}
         </div>
