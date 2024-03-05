@@ -1,12 +1,9 @@
 import React, {useState, useEffect} from 'react'
 
-
-
 export const AuthComponent = ({handleChange, handleSignup, handleSignin}) => {
     const [logState, setLogState]=useState("");
   return( <>
 
-      {/* make this work */}
       {logState}
       {logState ?
       (<form style={{display: "flex", flexDirection: "column"}}>
