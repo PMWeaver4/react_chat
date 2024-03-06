@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 
 export const AuthComponent = ({handleChange, handleSignup, handleSignin}) => {
     const [logState, setLogState]=useState("");
+    //ternary used to enable log in, in addition to signup.
   return( <>
 
       {logState}

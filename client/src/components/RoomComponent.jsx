@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-
+//?Currently, "RoomComponent" handles the fetch requests to the server, and all message and room display.
 export const RoomComponent = () => {
     const [roomName, setRoomName] = useState("");
     const[roomDescription, setRoomDescription] = useState("");
@@ -11,6 +11,7 @@ export const RoomComponent = () => {
     const [newMessage, setNewMessage] = useState("");
     const [roomId, setRoomId] = useState("");
         
+    //get all rooms, useEffect used so that get all automatically updates when a new room is created
     useEffect(() => {
         
         const getallRoom = async () => {
@@ -24,7 +25,7 @@ export const RoomComponent = () => {
                 ).json();
 
              setallRoom(json.Created); 
-                    console.log(json);
+                    
             }catch(err){
                 console.log(err);
             }
@@ -33,8 +34,10 @@ export const RoomComponent = () => {
         getallRoom();
     }, [status]); 
 
-    const handleSubmit = async () => {
+//handles room creation
+    const handleSubmit = async (e) => {
         try {
+          e.preventDefault();
             setStatus("Loading");
             const json = await (
                 await fetch("http://localhost:7000/room/create/", {
@@ -50,8 +53,8 @@ export const RoomComponent = () => {
                     })
                 })
             ).json();
-                console.log(json.Created);
-          if(json.created){
+                
+          if(json.Created){
             setStatus("Room Created");
           }  
         }catch (err) {
@@ -60,7 +63,7 @@ export const RoomComponent = () => {
     };
 
 
-
+//Retrieves all messages within a given room
     const getAllInRoom = async(roomID) => {
       try{
         const json = await(
@@ -73,12 +76,12 @@ export const RoomComponent = () => {
         )).json();
         setAllMessages(json.Results);
 
-
       } catch (err){
         console.log(err);
       }
     }
 
+    //form for creating a new message
     const createNewMessage = () => (
       <form onSubmit={handleNewMessage}>
       <input onChange={(e) => setNewMessage(e.target.value)} placeholder="put your message here"></input>
@@ -86,7 +89,7 @@ export const RoomComponent = () => {
       </form>
     )
 
-    
+    //handles process to create new message, displays updated room
     const handleNewMessage = async (e) => {
       try {
         e.preventDefault();
@@ -105,7 +108,6 @@ export const RoomComponent = () => {
                   })
               })
           ).json();
-              console.log(json.Created);
         if(json.Created){
           getAllInRoom(roomId)
         }  
@@ -114,6 +116,7 @@ export const RoomComponent = () => {
       }
   };
 
+  //function to show all Rooms
     const displayallRoom = () => {
       
         return allRoom?.map(i => (
@@ -124,10 +127,9 @@ export const RoomComponent = () => {
             </div>
        ))
        .reverse();
-    };
-    
+    };   
 
-
+//the grand return, immediately offers the option to create a room, followed by displaying all rooms, which are themselves clickable to view their messages below
     return (
     <div>
         <h1>Rooms</h1>
@@ -148,16 +150,13 @@ export const RoomComponent = () => {
        { allMessages?.map(i => (
          <p key={i._id}>
           Message: <b>{i.body}</b>
+          <br/>
           When: <b>{i.when}</b>
-
         </p>
-      ))
-    }
+        ))
+      }
       {createNewMessage()}
-    
-        <div>
-            {}
-        </div>
+
     </div>
   );
 };
