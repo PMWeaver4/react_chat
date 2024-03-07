@@ -10,6 +10,7 @@ export const RoomComponent = () => {
     const [allMessages, setAllMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [roomId, setRoomId] = useState("");
+    // const [roomTitle, setRoomTitle] = useState(""); put a title above rooms, will work on after grading
         
     //get all rooms, useEffect used so that get all automatically updates when a new room is created
     useEffect(() => {
@@ -116,6 +117,8 @@ export const RoomComponent = () => {
       }
   };
 
+
+
   //function to show all Rooms
     const displayallRoom = () => {
       
@@ -129,9 +132,13 @@ export const RoomComponent = () => {
        .reverse();
     };   
 
+
+
+  
 //the grand return, immediately offers the option to create a room, followed by displaying all rooms, which are themselves clickable to view their messages below
     return (
     <div>
+
         <h1>Rooms</h1>
         <form>
 
@@ -147,12 +154,15 @@ export const RoomComponent = () => {
 
         <h2>All Rooms</h2>
         {displayallRoom()}
+
        { allMessages?.map(i => (
-         <p key={i._id}>
+         <form key={i._id}>
           Message: <b>{i.body}</b>
           <br/>
           When: <b>{i.when}</b>
-        </p>
+          <button>update!</button>
+          <button>delete</button>
+        </form>
         ))
       }
       {createNewMessage()}

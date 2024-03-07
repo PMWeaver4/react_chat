@@ -4,7 +4,7 @@ export const AuthComponent = ({handleChange, handleSignup, handleSignin}) => {
     const [logState, setLogState]=useState("");
     //ternary used to enable log in, in addition to signup.
   return( <>
-
+<h1>Say hello to my little project</h1>
       {logState}
       {logState ?
       (<form style={{display: "flex", flexDirection: "column"}}>
