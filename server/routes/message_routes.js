@@ -1,8 +1,7 @@
 const router = require("express").Router();
 
 const Message = require("../models/message");
-const Room = require("../models/room");
-const user = require("../models/user");
+
 
 //display all in a room
 router.get("/get_room/:room", async(req,res) => {
@@ -15,7 +14,6 @@ router.get("/get_room/:room", async(req,res) => {
 
     } catch(err) {
         console.log(err);
-        //console.log(req.params.room);
         res.status(500).json({
             Error:err,
     });
