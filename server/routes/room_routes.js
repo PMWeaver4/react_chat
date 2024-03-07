@@ -1,12 +1,5 @@
 const router = require("express").Router();
-
-//? Adding validate from middleware. Please check if this is correct.
-//const validate = require("../middleware/validate");
-
 const Room = require("../models/room");
-
-
-
 
 
 router.post("/create/", async(req,res) => {
@@ -92,6 +85,7 @@ router.put("/update/:name", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
     try {
         //find room and delete
+        //**not used???!?!?!?!?!?!?!!?
         const room = await Room.findByIdAndDelete(req.params.id);
 
             if (!Room) throw new Error("Room not found");
