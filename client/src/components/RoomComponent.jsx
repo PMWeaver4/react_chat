@@ -143,6 +143,7 @@ export const RoomComponent = () => {
         <form>
 
         <input onChange={(e) => setRoomName(e.target.value)} placeholder='Room Name'/>
+        <button onClick={handleSubmit}></button>
         <br/>
         <input onChange={(e) => setRoomDescription(e.target.value)} placeholder='Room Description' />
         <br/>
