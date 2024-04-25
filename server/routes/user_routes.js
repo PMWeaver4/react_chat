@@ -61,7 +61,7 @@ router.post("/login", async (req, res) => {
     });
   }
 });
-
+//update a specific user
 router.put("/update/:id", async (req, res) => {
   try {
     const userToUpdate = await User.findOne({ _id: req.params.id }).exec();
