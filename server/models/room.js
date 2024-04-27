@@ -1,29 +1,30 @@
 const mongoose = require("mongoose");
-const room = require("./room");
+const User = require("./user");
 
 const RoomSchema = new mongoose.Schema(
-    {
-    
-        name: {
-            type: String,
-            required: true,
-            unique: true
-        },
-        description: {
-            type: String,
-            required: true,
-        },
-        addedUsers: {
-            type: Array,
-            minlength: 1,
-        },
-
-        
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
     },
-    {
-        timestamps: true
-    }
-    );
-    
+    owner: {
+      type: mongoose.ObjectId,
+      required: true,
+      ref: User,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    addedUsers: {
+      type: Array,
+      minlength: 1,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 module.exports = mongoose.model("room", RoomSchema);

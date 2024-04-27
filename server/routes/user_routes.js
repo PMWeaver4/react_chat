@@ -9,6 +9,9 @@ const jwt = require("jsonwebtoken");
 //Importing User Table
 const User = require("../models/user");
 
+//Import validate for update
+const Validate = require("../middleware/validate");
+
 //creating Username
 router.post("/create/", async (req, res) => {
   try {
@@ -62,20 +65,31 @@ router.post("/login", async (req, res) => {
   }
 });
 //update a specific user
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", Validate, async (req, res) => {
   try {
-    const userToUpdate = await User.findOne({ _id: req.params.id }).exec();
-    const updatedUser = await userToUpdate
-      .updateOne({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        //can't update email, it's unique
-      })
-      .exec();
+    console.log(
+      "1, are we getting here?",
+      req.user._id.toString(),
+      req.params.id
+    );
+    if (req.user._id.toString() == req.params.id || req.user.isAdmin == true) {
+      console.log(`2, are we getting here?`);
+      const userToUpdate = await User.findOne({ _id: req.params.id }).exec();
+      const updatedUser = await userToUpdate
+        .updateOne({
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          //can't update email, it's unique
+          isAdmin: req.body.isAdmin,
+        })
+        .exec();
 
-    res.status(200).json({
-      Updated: updatedUser,
-    });
+      res.status(200).json({
+        Updated: updatedUser,
+      });
+    } else {
+      throw new Error("you do not have access to this user");
+    }
   } catch (err) {
     res.status(500).json({
       Error: err,
@@ -83,15 +97,27 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", Validate, async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    //user can delete themselves
+    if (!req.user.isAdmin) {
+      const user = await User.findByIdAndDelete(req.user.id);
 
-    if (!user) throw new Error("User not found");
+      if (!user) throw new Error("User not found");
 
-    res.status(200).json({
-      Deleted: 1,
-    });
+      res.status(200).json({
+        Deleted: 1,
+      });
+    } else {
+      //admin can delete a user
+      const user = await User.findByIdAndDelete(req.params.id);
+
+      if (!user) throw new Error("User not found");
+
+      res.status(200).json({
+        Deleted: 1,
+      });
+    }
   } catch (err) {
     res.status(500).json({
       Error: err,

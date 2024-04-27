@@ -5,6 +5,7 @@ router.post("/create/", async (req, res) => {
   try {
     let room = new Room({
       name: req.body.name,
+      owner: req.user._id,
       description: req.body.description,
       addedUsers: req.body.addedUsers,
     });
@@ -52,27 +53,33 @@ router.put("/update/:name", async (req, res) => {
     //pluck the room out of available rooms
     const roomToUpdate = await Room.findOne({ name: req.params.name }).exec();
     //add a user function
-    let newUsers = [...roomToUpdate.addedUsers];
-    newUsers.push(...req.body.addedUsers);
-    //remove a user function
-    newUsers = newUsers.filter((user) => !req.body.removedUsers.includes(user));
-    //update the room
-    const roomUpdated = await roomToUpdate
-      .updateOne({
+    if (req.user.isAdmin || req.user._id === roomToUpdate.owner) {
+      let newUsers = [...roomToUpdate.addedUsers];
+      newUsers.push(...req.body.addedUsers);
+      //remove a user function
+      newUsers = newUsers.filter(
+        (user) => !req.body.removedUsers.includes(user)
+      );
+      //update the room
+      const roomUpdated = await roomToUpdate
+        .updateOne({
+          name: req.body.name,
+          description: req.body.description,
+          addedUsers: newUsers,
+        })
+        .exec();
+
+      const roomReturnUPdated = await Room.findOne({
         name: req.body.name,
-        description: req.body.description,
-        addedUsers: newUsers,
-      })
-      .exec();
+      }).exec();
 
-    const roomReturnUPdated = await Room.findOne({
-      name: req.body.name,
-    }).exec();
-
-    res.status(200).json({
-      Updated: roomReturnUPdated,
-      Results: roomReturnUPdated,
-    });
+      res.status(200).json({
+        Updated: roomReturnUPdated,
+        Results: roomReturnUPdated,
+      });
+    } else {
+      throw new Error("You do not have the ability to update this room");
+    }
   } catch (err) {
     res.status(500).json({
       Error: err,
@@ -84,13 +91,18 @@ router.put("/update/:name", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
   try {
     //find room and delete
-    await Room.findByIdAndDelete(req.params.id);
+    const room = Room.findbyId(req.params.id);
+    if (room.owner === req.user._id || req.user.isAdmin) {
+      await Room.findByIdAndDelete(req.params.id);
 
-    if (!Room) throw new Error("Room not found");
+      if (!Room) throw new Error("Room not found");
 
-    res.status(200).json({
-      Deleted: 1,
-    });
+      res.status(200).json({
+        Deleted: 1,
+      });
+    } else {
+      throw new Error("You do not have the ability to delete this room");
+    }
   } catch (err) {
     res.status(500).json({
       Error: err,
