@@ -68,6 +68,28 @@ router.post("/login", async (req,res) => {
     }
 });
 
+//update this code for message TC 4/24
+router.put("/update/:room/:id", async (req, res) => {
+    try {
+        //use params to match message with request to update
+        const filter = {room: req.params.room, msg_id: req.params.id};
+        const update = {room: req.body.room,body: req.body.body};
+        
+        //update in mongoose
+        const updated = await Message.findOneAndUpdate(filter, update,{new: true});
+        //display updated message
+        res.status(200).json({
+            Results: updated,
+
+        });
+    } catch (err) {
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
+
+
 router.delete("/delete/:id", async (req, res) => {
     try {
 
