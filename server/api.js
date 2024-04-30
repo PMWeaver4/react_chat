@@ -13,7 +13,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 // //? Connection string URL variable from .env file
-const MONGODB = process.env.MONGO_DB_URL + process.env.DB_NAME;
+const MONGODB = process.env.MONGOOSE_STRING + process.env.DB_NAME;
 
 //? Assign Express
 const app = express();

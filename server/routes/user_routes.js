@@ -97,32 +97,6 @@ router.put("/update/:id", Validate, async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-//update this code for message TC 4/24
-router.put("/update/:room/:id", async (req, res) => {
-    try {
-        //use params to match message with request to update
-        const filter = {room: req.params.room, msg_id: req.params.id};
-        const update = {room: req.body.room,body: req.body.body};
-        
-        //update in mongoose
-        const updated = await Message.findOneAndUpdate(filter, update,{new: true});
-        //display updated message
-        res.status(200).json({
-            Results: updated,
-
-        });
-    } catch (err) {
-        res.status(500).json({
-            Error: err,
-        });
-    }
-});
-
-
-router.delete("/delete/:id", async (req, res) => {
-    try {
-=======
 router.delete("/delete/:id", Validate, async (req, res) => {
   try {
     //user can delete themselves
@@ -130,7 +104,6 @@ router.delete("/delete/:id", Validate, async (req, res) => {
       const user = await User.findByIdAndDelete(req.user.id);
 
       if (!user) throw new Error("User not found");
->>>>>>> 272e2ce418d48dcd10cd584da146b63aa021dab3
 
       res.status(200).json({
         Deleted: 1,
