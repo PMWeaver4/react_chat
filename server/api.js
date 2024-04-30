@@ -1,5 +1,5 @@
 //? Importing dotenv, and applying it (giving us access to process.env)
-require('dotenv').config();
+require("dotenv").config();
 
 //does this project have seed data we need to import?
 
@@ -19,7 +19,7 @@ const MONGODB = process.env.MONGO_DB_URL + process.env.DB_NAME;
 const app = express();
 
 //? Import controller/s
-const { userRoutes, roomRoutes, messageRoutes  } = require("./routes/");
+const { userRoutes, roomRoutes, messageRoutes } = require("./routes/");
 
 //? Import validation middleware
 const validateSession = require("./middleware/validate");
@@ -49,10 +49,10 @@ app.use("/room", roomRoutes);
 
 //? Initial spin up of the Express server
 app.listen(PORT, () => {
-    try {
-      console.log("*".repeat(10));
-      console.log(`Server is connected: ${PORT}`);
-    } catch (err) {
-      console.log("Error connecting", err);
-    }
-  });
+  try {
+    console.log("*".repeat(10));
+    console.log(`Server is connected on...(drumroll please): ${PORT}`);
+  } catch (err) {
+    console.log("Error connecting", err);
+  }
+});
