@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 
 export const MessageComponent = () => {
+  //might get rid of unused useState
     const [allMessages, setAllMessages] = useState ([]);
     const [newMessage, setNewMessage] = useState("");
 
