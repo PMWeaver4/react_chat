@@ -14,7 +14,7 @@ export const MessageComponent = () => {
         </form>
       )
   
-      //handles process to create new message, displays updated room
+      //handles process to create new message, displays updated room!
       const handleNewMessage = async (e) => {
         try {
           e.preventDefault();
